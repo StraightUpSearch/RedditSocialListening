@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Social Listening Tool</title>
+</head>
+<body>
+    <h1>Reddit Social Listening Tool</h1>
+    <input type="text" id="queryInput" placeholder="Enter a name">
+    <button onclick="search()">Search</button>
+    <div id="results"></div>
+
+    <script>
+        async function search() {
+            const query = document.getElementById('queryInput').value;
+            const response = await fetch(`/search?query=${query}`);
+            const data = await response.json();
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = `<a href="${item.url}" target="_blank">${item.title}</a> (Score: ${item.score})`;
+                resultsDiv.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>
